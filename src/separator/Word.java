@@ -58,20 +58,20 @@ public class Word {
 				separated = separated.substring(0, i) + "'" + separated.substring(i);
 			}
 			else {
-				separated = separated.substring(0, i) + "'" + separated.substring(i);
+				separated = separated.substring(0, i + 1) + "'" + separated.substring(i + 1);
 			}
 		}
 		else {
-			if (consonant(word.charAt(word.length() - 1)) && word.charAt(word.length() - 1) != 'n' 
+			if (word.length() <= 2) {
+				separated = "'" + separated;
+			}
+			else if (consonant(word.charAt(word.length() - 1)) && word.charAt(word.length() - 1) != 'n' 
 				&& word.charAt(word.length() - 1) != 's') {
 				int i = separated.length() - 2;
 				while (separated.charAt(i) != '.' && i > 0) {
 					i--;
 				}
 				separated = separated.substring(0, i + 1) + "'" + separated.substring(i + 1);
-			}
-			else if (word.length() <= 2) {
-				separated = "'" + separated;
 			}
 			else {
 				int i = separated.length() - 1;
@@ -82,7 +82,7 @@ public class Word {
 						periods++;
 					}
 				}
-				separated = separated.substring(0, i + 1) + "'" + separated.substring(i + 1);
+				separated = separated.substring(0, i) + "'" + separated.substring(i);
 			}
 		}
 		return separated;
