@@ -1,51 +1,30 @@
 package separator;
 
+import java.util.ArrayList;
+
 public class Word {
 	private String word;
-	private boolean accented;
+	private ArrayList<Syllable> syllables = new ArrayList<>();
 	
 	public Word(String word) {
 		this.word = word;
-		this.accented = isAccented();
 	}
 	
 	public String getWord() {
 		return word;
 	}
 	
-	public String separate() {
-		String separated = "";
+	public void separate() {
 		int place = 0;
-		if (word.length() > 2) {
-			for (int i = 0; i < word.length() - 1; i++) {
-				if (vowel(word.charAt(i)) && consonant(word.charAt(i + 1))) {
-					if (word.charAt(i + 1) != 'l' && word.charAt(i + 1) != 'r' 
-						&& i + 2 != word.length()) {
-						separated = separated + word.substring(place, i + 1) + ".";
-						place = i + 1;
-					}
-				}
-				else if ((strongVowel(word.charAt(i)) && weakVowel(word.charAt(i + 1))) 
-					|| (weakVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1)))) {
-					separated = separated + word.substring(place, i + 1) + ".";
-					place = i + 1;
-				}
-				else if (i >= 1 && consonant(word.charAt(i - 1)) && consonant(word.charAt(i + 1))) {
-					separated = separated + word.substring(place, i + 1) + ".";
-					place = i + 1;
-				}
-				else if (strongVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1))) {
-					separated = separated + word.substring(place, i + 1) + ".";
-					place = i + 1;
-				}
+		for (int i = 0; i < word.length() - 1; i++) {
+			if (shouldSeparate(i)) {
+				syllables.add(new Syllable(word.substring(place, i + 1)));
+				place = i + 1;
 			}
 		}
-		separated = separated + word.substring(place) + ".";
-		return separated;
 	}
 	
-	public String stressedSyllable() {
-		String separated = separate();
+/*	public String stressedSyllable() {
 		if (accented) {
 			int i = 0;
 			while (!accent(word.charAt(i))) {
@@ -86,7 +65,7 @@ public class Word {
 			}
 		}
 		return separated;
-	}
+	} */
 	
 	public boolean vowel(char c) {
 		String vowel = "ÁÉÍÓÚAEIOUáéíóúaeiou";
@@ -113,13 +92,33 @@ public class Word {
 		return accents.contains(Character.toString(c));
 	}
 	
-	public boolean isAccented() {
-		String accents = "ÁÉÍÓÚáéíóú";
-		for (int i = 0; i < word.length(); i++) {
-			if (accents.contains(Character.toString(word.charAt(i)))) {
+	public boolean isAccented(Syllable s) {
+		for (int i = 0; i < s.getSyllable().length(); i++) {
+			if (accent(s.getSyllable().charAt(i))) {
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public boolean shouldSeparate(int i) {
+		if ((i + 2 != word.length()) && vowel(word.charAt(i)) && consonant(word.charAt(i + 1)) 
+				&& vowel(word.charAt(i + 2))) {
+			return true;
+		}
+		else if (i >= 1 && consonant(word.charAt(i - 1)) && consonant(word.charAt(i + 1))) {
+			return true;
+		}
+		else if (strongVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1))) {
+			return true;
+		}
+		else if ((i + 2 != word.length()) && vowel(word.charAt(i)) && consonant(word.charAt(i + 1)) 
+				&& consonant(word.charAt(i + 2)) && (word.charAt(i + 2) == 'r' 
+				|| word.charAt(i + 2) == 'l')) {
+			return false;
+		}
+		else {
+			return false;
+		}
 	}
 }
