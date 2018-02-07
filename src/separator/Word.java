@@ -5,9 +5,11 @@ import java.util.ArrayList;
 public class Word {
 	private String word;
 	private ArrayList<Syllable> syllables = new ArrayList<>();
+	private boolean accented;
 	
 	public Word(String word) {
 		this.word = word;
+		this.accented = false;
 	}
 	
 	public String getWord() {
@@ -22,50 +24,37 @@ public class Word {
 				place = i + 1;
 			}
 		}
+		if (place != word.length()) {
+			syllables.add(new Syllable(word.substring(place)));
+		}
 	}
 	
-/*	public String stressedSyllable() {
-		if (accented) {
-			int i = 0;
-			while (!accent(word.charAt(i))) {
-				i++;
-			}
-			if (i == 0) {
-				separated = "'" + separated;
-			}
-			else if (consonant(word.charAt(i - 1))) {
-				separated = separated.substring(0, i) + "'" + separated.substring(i);
-			}
-			else {
-				separated = separated.substring(0, i + 1) + "'" + separated.substring(i + 1);
+	public String stressedSyllable() {
+		separate();
+		String separated = "";
+		for (int i = 0; i < syllables.size(); i++) {
+			if (isAccented(syllables.get(i))) {
+				syllables.get(i).setStressed();
+				accented = true;
 			}
 		}
-		else {
-			if (word.length() <= 2) {
-				separated = "'" + separated;
+		if (!accented) {
+			if (syllables.size() == 1) {
+				syllables.get(0).setStressed();
 			}
-			else if (consonant(word.charAt(word.length() - 1)) && word.charAt(word.length() - 1) != 'n' 
-				&& word.charAt(word.length() - 1) != 's') {
-				int i = separated.length() - 2;
-				while (separated.charAt(i) != '.' && i > 0) {
-					i--;
-				}
-				separated = separated.substring(0, i + 1) + "'" + separated.substring(i + 1);
+			else if (word.charAt(word.length() - 1) == 'n' || word.charAt(word.length() - 1) == 's' 
+					|| vowel(word.charAt(word.length() - 1))) {
+				syllables.get(syllables.size() - 2).setStressed();
 			}
 			else {
-				int i = separated.length() - 1;
-				int periods = 0;
-				while (periods < 2 && i > 0) {
-					i--;
-					if (separated.charAt(i) == '.') {
-						periods++;
-					}
-				}
-				separated = separated.substring(0, i) + "'" + separated.substring(i);
+				syllables.get(syllables.size() - 1).setStressed();
 			}
+		}
+		for (int i = 0; i < syllables.size(); i++) {
+			separated = separated + syllables.get(i).getSyllable() + ".";
 		}
 		return separated;
-	} */
+	}
 	
 	public boolean vowel(char c) {
 		String vowel = "ÁÉÍÓÚAEIOUáéíóúaeiou";
@@ -102,7 +91,10 @@ public class Word {
 	}
 	
 	public boolean shouldSeparate(int i) {
-		if ((i + 2 != word.length()) && vowel(word.charAt(i)) && consonant(word.charAt(i + 1)) 
+		if (i + 1 == word.length() - 1) {
+			return false;
+		}
+		else if ((i + 2 != word.length()) && vowel(word.charAt(i)) && consonant(word.charAt(i + 1)) 
 				&& vowel(word.charAt(i + 2))) {
 			return true;
 		}
