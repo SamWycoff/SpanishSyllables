@@ -28,7 +28,13 @@ public class S3Controller {
 			result.setText("This text is too long to separate.");
 		}
 		else {
-			text = text.replace(".", "");
+			char[] characters = text.toCharArray();
+			for (int i = 0; i < characters.length; i++) {
+				if (!isLetter(characters[i]) && characters[i] != ' ') {
+					characters[i] = '/';
+				}
+			}
+			text = String.valueOf(characters);
 			String[] tempWords = text.split(" ");
 			for (int i = 0; i < tempWords.length; i++) {
 				originalWords.add(new Word(tempWords[i]));
@@ -38,5 +44,10 @@ public class S3Controller {
 			}
 			result.setText(String.format(finalResult));
 		}
+	}
+	
+	public boolean isLetter(char c) {
+		String letters = "ÁÉÍÓÚAEIOUáéíóúaeiouBCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz";
+		return letters.contains(Character.toString(c));
 	}
 }

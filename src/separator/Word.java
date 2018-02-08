@@ -51,7 +51,13 @@ public class Word {
 			}
 		}
 		for (int i = 0; i < syllables.size(); i++) {
-			separated = separated + syllables.get(i).getSyllable() + ".";
+			if (syllables.get(i).getSyllable().charAt(syllables.get(i).getSyllable().length() - 1) 
+					!= '/'){
+				separated = separated + syllables.get(i).getSyllable() + ".";
+			}
+			else {
+				separated = separated + syllables.get(i).getSyllable();
+			}
 		}
 		return separated;
 	}
@@ -72,7 +78,7 @@ public class Word {
 	}
 	
 	public boolean consonant(char c) {
-		String consonant = "BCDFGHJKLMNPQRSTVWXYZbcdfghjklmnpqrstvwxyz";
+		String consonant = "BCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz";
 		return consonant.contains(Character.toString(c));
 	}
 	
@@ -91,7 +97,7 @@ public class Word {
 	}
 	
 	public boolean shouldSeparate(int i) {
-		if (i + 1 == word.length() - 1) {
+		if (i + 1 == word.length() - 1 && !accent(word.charAt(i + 1))) {
 			return false;
 		}
 		else if ((i + 2 != word.length()) && vowel(word.charAt(i)) && consonant(word.charAt(i + 1)) 

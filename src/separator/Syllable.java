@@ -12,6 +12,11 @@ public class Syllable {
 	}
 	
 	public void setStressed() {
-		syllable = "'" + syllable;
+		if (syllable.charAt(0) != '/') {
+			syllable = "'" + syllable;
+		}
+		else {
+			syllable = syllable.substring(0, 1) + "'" + syllable.substring(1);
+		}
 	}
 }
