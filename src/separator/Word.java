@@ -17,7 +17,6 @@ public class Word {
 	}
 	
 	public void separate() {
-		System.out.println(word);
 		int place = 0;
 		if (word.charAt(word.length() - 1) == '/') {
 			for (int i = 0; i < word.length() - 1; i++) {

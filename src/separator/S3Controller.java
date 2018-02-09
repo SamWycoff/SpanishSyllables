@@ -1,9 +1,14 @@
 package separator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 public class S3Controller {
 	@FXML
@@ -11,6 +16,9 @@ public class S3Controller {
 	
 	@FXML
 	TextArea result;
+	
+	@FXML
+	TextField fileName;
 	
 	private ArrayList<Word> originalWords = new ArrayList<Word>();
 	private String finalResult = "";
@@ -21,6 +29,8 @@ public class S3Controller {
 		original.setWrapText(true);
 		result.setEditable(false);
 		result.setWrapText(true);
+		fileName.setEditable(true);
+		fileName.setText(".txt");
 	}
 	
 	@FXML
@@ -46,7 +56,7 @@ public class S3Controller {
 				originalWords.add(new Word(tempWords[i]));
 			}
 			for (int i = 0; i < originalWords.size(); i++) {
-				finalResult = finalResult + originalWords.get(i).stressedSyllable();
+				finalResult = resyllabification(finalResult, originalWords.get(i).stressedSyllable());
 			}
 			result.setText(String.format(finalResult));
 		}
@@ -55,5 +65,68 @@ public class S3Controller {
 	public boolean isLetter(char c) {
 		String letters = "ÁÉÍÓÚAEIOUáéíóúaeiouBCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz0123456789";
 		return letters.contains(Character.toString(c));
+	}
+	
+	public boolean accent(char c) {
+		String accents = "ÁÉÍÓÚáéíóú";
+		return accents.contains(Character.toString(c));
+	}
+	
+	public boolean consonant(char c) {
+		String consonant = "BCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz";
+		return consonant.contains(Character.toString(c));
+	}
+	
+	public boolean vowel(char c) {
+		String vowel = "AEIOUaeiou";
+		return vowel.contains(Character.toString(c));
+	}
+	
+	public String resyllabification(String previous, String present) {
+		if (previous.length() == 0) {
+			return present;
+		}
+		else if (present.length() == 0) {
+			return previous;
+		}
+		else if (previous.charAt(previous.length() - 1) == '/' || accent(present.charAt(0)) 
+				|| (!isLetter(present.charAt(0)) && accent(present.charAt(1)))) {
+			return previous + present;
+		}
+		else if (consonant(previous.charAt(previous.length() - 2)) && (vowel(present.charAt(0)) 
+				|| (!isLetter(present.charAt(0)) && vowel(present.charAt(1))))) {
+			if (!isLetter(present.charAt(0))) {
+				return previous.substring(0, previous.length() - 2) + ".'" 
+				+ previous.substring(previous.length() - 2, previous.length() - 1) 
+				+ present.substring(1);
+			}
+			else {
+				return previous.substring(0, previous.length() - 2) + "." 
+						+ previous.substring(previous.length() - 2, previous.length() - 1) 
+						+ present;
+			}
+		}
+		else {
+			return previous + present;
+		}
+	}
+	
+	@FXML
+	public void save() {
+		try {
+			File copy = new File(fileName.getText());
+			Scanner fileIn = new Scanner(result.getText());
+			PrintStream fileOut = new PrintStream(copy);
+
+			while (fileIn.hasNextLine()) {
+				fileOut.print(fileIn.nextLine());
+			}
+
+			fileIn.close();
+			fileOut.close();
+		}
+		catch (FileNotFoundException e) {
+			e.getMessage();
+		}
 	}
 }
