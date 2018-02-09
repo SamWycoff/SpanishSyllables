@@ -27,7 +27,7 @@ public class S3Controller {
 	public void initialize() {
 		original.setEditable(true);
 		original.setWrapText(true);
-		result.setEditable(false);
+		result.setEditable(true);
 		result.setWrapText(true);
 		fileName.setEditable(true);
 		fileName.setText(".txt");
@@ -59,6 +59,26 @@ public class S3Controller {
 				finalResult = resyllabification(finalResult, originalWords.get(i).getSeparated());
 			}
 			result.setText(String.format(finalResult));
+		}
+	}
+	
+	//Copied from example during Wednesday's lecture
+	@FXML
+	public void save() {
+		try {
+			File copy = new File(fileName.getText());
+			Scanner fileIn = new Scanner(result.getText());
+			PrintStream fileOut = new PrintStream(copy);
+
+			while (fileIn.hasNextLine()) {
+				fileOut.print(fileIn.nextLine());
+			}
+
+			fileIn.close();
+			fileOut.close();
+		}
+		catch (FileNotFoundException e) {
+			e.getMessage();
 		}
 	}
 	
@@ -108,25 +128,6 @@ public class S3Controller {
 		}
 		else {
 			return previous + present;
-		}
-	}
-	
-	@FXML
-	public void save() {
-		try {
-			File copy = new File(fileName.getText());
-			Scanner fileIn = new Scanner(result.getText());
-			PrintStream fileOut = new PrintStream(copy);
-
-			while (fileIn.hasNextLine()) {
-				fileOut.print(fileIn.nextLine());
-			}
-
-			fileIn.close();
-			fileOut.close();
-		}
-		catch (FileNotFoundException e) {
-			e.getMessage();
 		}
 	}
 }

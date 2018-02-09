@@ -6,26 +6,26 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="separator.S3Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="separator.S3Controller">
    <center>
       <VBox fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="550.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="original" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="550.0">
+            <TextArea fx:id="original" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </TextArea>
             <Button alignment="CENTER" contentDisplay="CENTER" layoutX="250.0" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#separate" pickOnBounds="false" prefHeight="25.0" prefWidth="65.0" text="Separate" textAlignment="CENTER">
                <VBox.margin>
-                  <Insets bottom="10.0" left="275.0" top="10.0" />
+                  <Insets bottom="10.0" left="225.0" top="10.0" />
                </VBox.margin>
             </Button>
             <Label text="Text Separated by Syllables">
                <VBox.margin>
-                  <Insets left="240.0" />
+                  <Insets left="200.0" />
                </VBox.margin>
             </Label>
-            <TextArea fx:id="result" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="550.0">
+            <TextArea fx:id="result" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
