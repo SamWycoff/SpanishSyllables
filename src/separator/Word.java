@@ -6,14 +6,21 @@ public class Word {
 	private String word;
 	private ArrayList<Syllable> syllables = new ArrayList<>();
 	private boolean accented;
+	private String separated;
 	
 	public Word(String word) {
 		this.word = word;
 		this.accented = false;
+		this.separated = "";
 	}
 	
 	public String getWord() {
 		return word;
+	}
+	
+	public String getSeparated() {
+		stressedSyllable();
+		return separated;
 	}
 	
 	public void separate() {
@@ -39,40 +46,24 @@ public class Word {
 		}
 	}
 	
-	public String stressedSyllable() {
+	public void stressedSyllable() {
 		separate();
-		String separated = "";
 		for (int i = 0; i < syllables.size(); i++) {
-			if (isAccented(syllables.get(i))) {
-				syllables.get(i).setStressed();
-				accented = true;
-			}
+			accentCheck(i);
 		}
 		if (!accented) {
-			if (word.charAt(word.length() - 1) == '/') {
-				word = word.substring(0, word.length() - 1);
-			}
-			if (syllables.size() == 1) {
-				syllables.get(0).setStressed();
-			}
-			else if (word.charAt(word.length() - 1) == 'n' || word.charAt(word.length() - 1) == 's' 
-					|| vowel(word.charAt(word.length() - 1))) {
-				syllables.get(syllables.size() - 2).setStressed();
-			}
-			else {
-				syllables.get(syllables.size() - 1).setStressed();
-			}
+			markNotAccented();
 		}
 		for (int i = 0; i < syllables.size(); i++) {
-			if (syllables.get(i).getSyllable().charAt(syllables.get(i).getSyllable().length() - 1) 
+			String temp = syllables.get(i).getSyllable();
+			if (temp.charAt(temp.length() - 1) 
 					!= '/'){
-				separated = separated + syllables.get(i).getSyllable() + ".";
+				separated = separated + temp + ".";
 			}
 			else {
-				separated = separated + syllables.get(i).getSyllable();
+				separated = separated + temp;
 			}
 		}
-		return separated;
 	}
 	
 	public boolean vowel(char c) {
@@ -180,8 +171,8 @@ public class Word {
 			return false;
 		}
 		else if (i + 2 != word.length() && consonant(word.charAt(i + 1)) 
-				&& consonant(word.charAt(i + 2)) && word.charAt(i + 2) == 'r' 
-				&& word.charAt(i + 2) == 'l') {
+				&& consonant(word.charAt(i + 2)) && (word.charAt(i + 2) == 'r' 
+				|| word.charAt(i + 2) == 'l')) {
 			return true;
 		}
 		else if (weakVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1))) {
@@ -224,6 +215,29 @@ public class Word {
 		}
 		else {
 			return false;
+		}
+	}
+	
+	public void accentCheck(int i) {
+		if (isAccented(syllables.get(i))) {
+			syllables.get(i).setStressed();
+			accented = true;
+		}
+	}
+	
+	public void markNotAccented() {
+		if (word.charAt(word.length() - 1) == '/') {
+			word = word.substring(0, word.length() - 1);
+		}
+		if (syllables.size() == 1) {
+			syllables.get(0).setStressed();
+		}
+		else if (word.charAt(word.length() - 1) == 'n' || word.charAt(word.length() - 1) == 's' 
+				|| vowel(word.charAt(word.length() - 1))) {
+			syllables.get(syllables.size() - 2).setStressed();
+		}
+		else {
+			syllables.get(syllables.size() - 1).setStressed();
 		}
 	}
 }

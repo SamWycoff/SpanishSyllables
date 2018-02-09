@@ -17,10 +17,10 @@ public class WordTest {
 		Word corto = new Word("es");
 		Word when = new Word("cuando");
 		Word presentation = new Word("presentación");
-		String separated = test.stressedSyllable();
-		String separated2 = corto.stressedSyllable();
-		String separated3 = when.stressedSyllable();
-		String separated4 = presentation.stressedSyllable();
+		String separated = test.getSeparated();
+		String separated2 = corto.getSeparated();
+		String separated3 = when.getSeparated();
+		String separated4 = presentation.getSeparated();
 		assertTrue(separated.equals("a.'yú.da.me."));
 		assertTrue(separated2.equals("'es."));
 		assertTrue(separated3.equals("'cuan.do."));

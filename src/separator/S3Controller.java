@@ -56,7 +56,7 @@ public class S3Controller {
 				originalWords.add(new Word(tempWords[i]));
 			}
 			for (int i = 0; i < originalWords.size(); i++) {
-				finalResult = resyllabification(finalResult, originalWords.get(i).stressedSyllable());
+				finalResult = resyllabification(finalResult, originalWords.get(i).getSeparated());
 			}
 			result.setText(String.format(finalResult));
 		}
