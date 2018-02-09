@@ -18,10 +18,20 @@ public class Word {
 	
 	public void separate() {
 		int place = 0;
-		for (int i = 0; i < word.length() - 1; i++) {
-			if (shouldSeparate(i)) {
-				syllables.add(new Syllable(word.substring(place, i + 1)));
-				place = i + 1;
+		if (word.charAt(word.length() - 1) == '/') {
+			for (int i = 0; i < word.length() - 2; i++) {
+				if (shouldSeparate(word.substring(0, word.length() - 1), i)) {
+					syllables.add(new Syllable(word.substring(place, i + 1)));
+					place = i + 1;
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < word.length() - 1; i++) {
+				if (shouldSeparate(i)) {
+					syllables.add(new Syllable(word.substring(place, i + 1)));
+					place = i + 1;
+				}
 			}
 		}
 		if (place != word.length()) {
@@ -39,6 +49,9 @@ public class Word {
 			}
 		}
 		if (!accented) {
+			if (word.charAt(word.length() - 1) == '/') {
+				word = word.substring(0, word.length() - 1);
+			}
 			if (syllables.size() == 1) {
 				syllables.get(0).setStressed();
 			}
@@ -113,6 +126,30 @@ public class Word {
 		else if ((i + 2 != word.length()) && vowel(word.charAt(i)) && consonant(word.charAt(i + 1)) 
 				&& consonant(word.charAt(i + 2)) && (word.charAt(i + 2) == 'r' 
 				|| word.charAt(i + 2) == 'l')) {
+			return false;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean shouldSeparate(String s, int i) {
+		if (i + 1 == s.length() - 1 && !accent(s.charAt(i + 1))) {
+			return false;
+		}
+		else if ((i + 2 != s.length()) && vowel(s.charAt(i)) && consonant(s.charAt(i + 1)) 
+				&& vowel(s.charAt(i + 2))) {
+			return true;
+		}
+		else if (i >= 1 && consonant(s.charAt(i - 1)) && consonant(s.charAt(i + 1))) {
+			return true;
+		}
+		else if (strongVowel(s.charAt(i)) && strongVowel(s.charAt(i + 1))) {
+			return true;
+		}
+		else if ((i + 2 != s.length()) && vowel(s.charAt(i)) && consonant(s.charAt(i + 1)) 
+				&& consonant(s.charAt(i + 2)) && (s.charAt(i + 2) == 'r' 
+				|| s.charAt(i + 2) == 'l')) {
 			return false;
 		}
 		else {

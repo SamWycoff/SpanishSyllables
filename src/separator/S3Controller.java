@@ -18,7 +18,9 @@ public class S3Controller {
 	@FXML
 	public void initialize() {
 		original.setEditable(true);
+		original.setWrapText(true);
 		result.setEditable(false);
+		result.setWrapText(true);
 	}
 	
 	@FXML
