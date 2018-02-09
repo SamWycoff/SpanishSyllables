@@ -34,6 +34,10 @@ public class S3Controller {
 			for (int i = 0; i < characters.length; i++) {
 				if (!isLetter(characters[i]) && characters[i] != ' ') {
 					characters[i] = '/';
+					if (i + 1 != characters.length && !isLetter(characters[i + 1]) 
+							&& characters[i + 1] != ' ') {
+						characters[i] = Character.MIN_VALUE;
+					}
 				}
 			}
 			text = String.valueOf(characters);
@@ -49,7 +53,7 @@ public class S3Controller {
 	}
 	
 	public boolean isLetter(char c) {
-		String letters = "ÁÉÍÓÚAEIOUáéíóúaeiouBCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz";
+		String letters = "ÁÉÍÓÚAEIOUáéíóúaeiouBCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz0123456789";
 		return letters.contains(Character.toString(c));
 	}
 }

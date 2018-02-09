@@ -17,9 +17,10 @@ public class Word {
 	}
 	
 	public void separate() {
+		System.out.println(word);
 		int place = 0;
 		if (word.charAt(word.length() - 1) == '/') {
-			for (int i = 0; i < word.length() - 2; i++) {
+			for (int i = 0; i < word.length() - 1; i++) {
 				if (shouldSeparate(word.substring(0, word.length() - 1), i)) {
 					syllables.add(new Syllable(word.substring(place, i + 1)));
 					place = i + 1;
@@ -110,47 +111,117 @@ public class Word {
 	}
 	
 	public boolean shouldSeparate(int i) {
-		if (i + 1 == word.length() - 1 && !accent(word.charAt(i + 1))) {
+		if (vowel(word.charAt(i))) {
+			return vowelSeparate(i);
+		}
+		else {
+			return consonantSeparate(i);
+		}
+	}
+	
+	public boolean shouldSeparate(String s, int i) {
+		if (vowel(s.charAt(i))) {
+			return vowelSeparate(s, i);
+		}
+		else {
+			return consonantSeparate(s, i);
+		}
+	}
+	
+	public boolean consonantSeparate(int i) {
+		if (i + 1 == word.length() - 1) {
 			return false;
 		}
-		else if ((i + 2 != word.length()) && vowel(word.charAt(i)) && consonant(word.charAt(i + 1)) 
-				&& vowel(word.charAt(i + 2))) {
-			return true;
+		else if (word.charAt(i + 1) == 'r' || word.charAt(i + 1) == 'l') {
+			return false;
 		}
 		else if (i >= 1 && consonant(word.charAt(i - 1)) && consonant(word.charAt(i + 1))) {
-			return true;
-		}
-		else if (strongVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1))) {
-			return true;
-		}
-		else if ((i + 2 != word.length()) && vowel(word.charAt(i)) && consonant(word.charAt(i + 1)) 
-				&& consonant(word.charAt(i + 2)) && (word.charAt(i + 2) == 'r' 
-				|| word.charAt(i + 2) == 'l')) {
 			return false;
+		}
+		else if (consonant(word.charAt(i + 1))) {
+			return true;
 		}
 		else {
 			return false;
 		}
 	}
 	
-	public boolean shouldSeparate(String s, int i) {
-		if (i + 1 == s.length() - 1 && !accent(s.charAt(i + 1))) {
+	public boolean consonantSeparate(String s, int i) {
+		if (i + 1 == s.length()) {
 			return false;
 		}
-		else if ((i + 2 != s.length()) && vowel(s.charAt(i)) && consonant(s.charAt(i + 1)) 
+		else if (s.charAt(i + 1) == 'r' || s.charAt(i + 1) == 'l') {
+			return false;
+		}
+		else if (i >= 1 && consonant(s.charAt(i - 1)) && consonant(s.charAt(i + 1))) {
+			return false;
+		}
+		else if (consonant(s.charAt(i + 1))) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean vowelSeparate(int i) {
+		if (i + 1 == word.length()) {
+			return false;
+		}
+		else if (weakVowel(word.charAt(i + 1))) {
+			return false;
+		}
+		else if (i + 2 != word.length() && consonant(word.charAt(i + 1)) 
+				&& vowel(word.charAt(i + 2))) {
+			return true;
+		}
+		else if (i + 2 != word.length() && consonant(word.charAt(i + 1)) 
+				&& consonant(word.charAt(i + 2)) && word.charAt(i + 2) != 'r' 
+				&& word.charAt(i + 2) != 'l') {
+			return false;
+		}
+		else if (i + 2 != word.length() && consonant(word.charAt(i + 1)) 
+				&& consonant(word.charAt(i + 2)) && word.charAt(i + 2) == 'r' 
+				&& word.charAt(i + 2) == 'l') {
+			return true;
+		}
+		else if (weakVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1))) {
+			return false;
+		}
+		else if (strongVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1))) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean vowelSeparate(String s, int i) {
+		if (i + 1 == s.length()) {
+			return false;
+		}
+		else if (weakVowel(s.charAt(i + 1))) {
+			return false;
+		}
+		else if (i + 2 != s.length() && consonant(s.charAt(i + 1)) 
 				&& vowel(s.charAt(i + 2))) {
 			return true;
 		}
-		else if (i >= 1 && consonant(s.charAt(i - 1)) && consonant(s.charAt(i + 1))) {
+		else if (i + 2 != s.length() && consonant(s.charAt(i + 1)) 
+				&& consonant(s.charAt(i + 2)) && s.charAt(i + 2) != 'r' 
+				&& s.charAt(i + 2) != 'l') {
+			return false;
+		}
+		else if (i + 2 != s.length() && consonant(s.charAt(i + 1)) 
+				&& consonant(s.charAt(i + 2)) && (s.charAt(i + 2) == 'r' 
+				|| s.charAt(i + 2) == 'l')) {
 			return true;
+		}
+		else if (weakVowel(s.charAt(i)) && strongVowel(s.charAt(i + 1))) {
+			return false;
 		}
 		else if (strongVowel(s.charAt(i)) && strongVowel(s.charAt(i + 1))) {
 			return true;
-		}
-		else if ((i + 2 != s.length()) && vowel(s.charAt(i)) && consonant(s.charAt(i + 1)) 
-				&& consonant(s.charAt(i + 2)) && (s.charAt(i + 2) == 'r' 
-				|| s.charAt(i + 2) == 'l')) {
-			return false;
 		}
 		else {
 			return false;
