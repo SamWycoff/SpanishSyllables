@@ -20,9 +20,6 @@ public class S3Controller {
 	@FXML
 	TextField fileName;
 	
-	private ArrayList<Word> originalWords = new ArrayList<Word>();
-	private String finalResult = "";
-	
 	@FXML
 	public void initialize() {
 		original.setEditable(true);
@@ -36,29 +33,13 @@ public class S3Controller {
 	@FXML
 	public void separate() {
 		String text = original.getText();
+		ArrayList<Word> originalWords = new ArrayList<Word>();
+		String finalResult = "";
 		if (text.length() > 500) {
 			result.setText("This text is too long to separate.");
 		}
 		else {
-			char[] characters = text.toCharArray();
-			for (int i = 0; i < characters.length; i++) {
-				if (!isLetter(characters[i]) && characters[i] != ' ') {
-					characters[i] = '/';
-					if (i + 1 != characters.length && !isLetter(characters[i + 1]) 
-							&& characters[i + 1] != ' ') {
-						characters[i] = Character.MIN_VALUE;
-					}
-				}
-			}
-			text = String.valueOf(characters);
-			String[] tempWords = text.split(" ");
-			for (int i = 0; i < tempWords.length; i++) {
-				originalWords.add(new Word(tempWords[i]));
-			}
-			for (int i = 0; i < originalWords.size(); i++) {
-				finalResult = resyllabification(finalResult, originalWords.get(i).getSeparated());
-			}
-			result.setText(String.format(finalResult));
+			separateHelper(text, originalWords, finalResult);
 		}
 	}
 	
@@ -82,23 +63,49 @@ public class S3Controller {
 		}
 	}
 	
+	public void separateHelper(String text, ArrayList<Word> originalWords, String finalResult) {
+		char[] characters = text.toCharArray();
+		for (int i = 0; i < characters.length; i++) {
+			addSlashes(characters, i);
+		}
+		text = String.valueOf(characters);
+		String[] tempWords = text.split(" ");
+		for (int i = 0; i < tempWords.length; i++) {
+			originalWords.add(new Word(tempWords[i]));
+		}
+		for (int i = 0; i < originalWords.size(); i++) {
+			finalResult = resyllabification(finalResult, originalWords.get(i).getSeparated());
+		}
+		result.setText(String.format(finalResult));
+	}
+	
+	public void addSlashes(char[] characters, int i) {
+		if (!isLetter(characters[i]) && characters[i] != ' ') {
+			characters[i] = '/';
+			if (i + 1 != characters.length && !isLetter(characters[i + 1]) 
+					&& characters[i + 1] != ' ') {
+				characters[i] = Character.MIN_VALUE;
+			}
+		}
+	}
+	
 	public boolean isLetter(char c) {
-		String letters = "ÁÉÍÓÚAEIOUáéíóúaeiouBCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz0123456789";
+		String letters = "ÁÉÍÓÚAEIOUáéíóúüaeiouBCÇDFGHJKLMNÑPQRSTVWXYZbcçdfghjklmnñpqrstvwxyz0123456789";
 		return letters.contains(Character.toString(c));
 	}
 	
 	public boolean accent(char c) {
-		String accents = "ÁÉÍÓÚáéíóú";
+		String accents = "ÁÉÍÓÚáéíóúü";
 		return accents.contains(Character.toString(c));
 	}
 	
 	public boolean consonant(char c) {
-		String consonant = "BCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz";
+		String consonant = "BCÇDFGHJKLMNÑPQRSTVWXYZbcçdfghjklmnñpqrstvwxyz";
 		return consonant.contains(Character.toString(c));
 	}
 	
 	public boolean vowel(char c) {
-		String vowel = "AEIOUaeiou";
+		String vowel = "AEIOUaeiouü";
 		return vowel.contains(Character.toString(c));
 	}
 	

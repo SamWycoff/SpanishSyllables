@@ -67,7 +67,7 @@ public class Word {
 	}
 	
 	public boolean vowel(char c) {
-		String vowel = "ÁÉÍÓÚAEIOUáéíóúaeiou";
+		String vowel = "ÁÉÍÓÚAEIOUáéíóúüaeiou";
 		return vowel.contains(Character.toString(c));
 	}
 	
@@ -77,12 +77,12 @@ public class Word {
 	}
 	
 	public boolean weakVowel(char c) {
-		String weak = "IUiu";
+		String weak = "IUiuü";
 		return weak.contains(Character.toString(c));
 	}
 	
 	public boolean consonant(char c) {
-		String consonant = "BCDFGHJKLMNÑPQRSTVWXYZbcdfghjklmnñpqrstvwxyz";
+		String consonant = "BCÇDFGHJKLMNÑPQRSTVWXYZbcçdfghjklmnñpqrstvwxyz";
 		return consonant.contains(Character.toString(c));
 	}
 	
