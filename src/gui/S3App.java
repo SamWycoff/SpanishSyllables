@@ -1,6 +1,6 @@
 // This class was copied from a Data Structures lab
 
-package separator;
+package gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

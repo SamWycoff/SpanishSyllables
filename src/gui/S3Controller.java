@@ -1,4 +1,4 @@
-package separator;
+package gui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +9,7 @@ import java.util.Scanner;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import separator.Word;
 
 public class S3Controller {
 	@FXML
