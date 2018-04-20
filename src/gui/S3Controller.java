@@ -9,7 +9,7 @@ import java.util.Scanner;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import separator.Word;
+import separator.*;
 
 public class S3Controller {
 	@FXML
@@ -81,33 +81,13 @@ public class S3Controller {
 	}
 	
 	public void addSlashes(char[] characters, int i) {
-		if (!isLetter(characters[i]) && characters[i] != ' ') {
+		if (!Letter.isLetter(characters[i]) && characters[i] != ' ') {
 			characters[i] = '/';
-			if (i + 1 != characters.length && !isLetter(characters[i + 1]) 
+			if (i + 1 != characters.length && !Letter.isLetter(characters[i + 1]) 
 					&& characters[i + 1] != ' ') {
 				characters[i] = Character.MIN_VALUE;
 			}
 		}
-	}
-	
-	public boolean isLetter(char c) {
-		String letters = "ÁÉÍÓÚAEIOUáéíóúüaeiouBCÇDFGHJKLMNÑPQRSTVWXYZbcçdfghjklmnñpqrstvwxyz0123456789";
-		return letters.contains(Character.toString(c));
-	}
-	
-	public boolean accent(char c) {
-		String accents = "ÁÉÍÓÚáéíóúü";
-		return accents.contains(Character.toString(c));
-	}
-	
-	public boolean consonant(char c) {
-		String consonant = "BCÇDFGHJKLMNÑPQRSTVWXYZbcçdfghjklmnñpqrstvwxyz";
-		return consonant.contains(Character.toString(c));
-	}
-	
-	public boolean vowel(char c) {
-		String vowel = "AEIOUaeiouü";
-		return vowel.contains(Character.toString(c));
 	}
 	
 	public String resyllabification(String previous, String present) {
@@ -117,13 +97,13 @@ public class S3Controller {
 		else if (present.length() == 0) {
 			return previous;
 		}
-		else if (previous.charAt(previous.length() - 1) == '/' || accent(present.charAt(0)) 
-				|| (!isLetter(present.charAt(0)) && accent(present.charAt(1)))) {
+		else if (previous.charAt(previous.length() - 1) == '/' || Letter.accent(present.charAt(0)) 
+				|| (!Letter.isLetter(present.charAt(0)) && Letter.accent(present.charAt(1)))) {
 			return previous + present;
 		}
-		else if (consonant(previous.charAt(previous.length() - 2)) && (vowel(present.charAt(0)) 
-				|| (!isLetter(present.charAt(0)) && vowel(present.charAt(1))))) {
-			if (!isLetter(present.charAt(0))) {
+		else if (Letter.consonant(previous.charAt(previous.length() - 2)) && (Letter.vowel(present.charAt(0)) 
+				|| (!Letter.isLetter(present.charAt(0)) && Letter.vowel(present.charAt(1))))) {
+			if (!Letter.isLetter(present.charAt(0))) {
 				return previous.substring(0, previous.length() - 2) + ".'" 
 				+ previous.substring(previous.length() - 2, previous.length() - 1) 
 				+ present.substring(1);

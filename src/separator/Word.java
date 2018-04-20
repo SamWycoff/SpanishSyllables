@@ -66,34 +66,9 @@ public class Word {
 		}
 	}
 	
-	public boolean vowel(char c) {
-		String vowel = "¡…Õ”⁄AEIOU·ÈÌÛ˙¸aeiou";
-		return vowel.contains(Character.toString(c));
-	}
-	
-	public boolean strongVowel(char c) {
-		String strong = "¡…Õ”⁄AEO·ÈÌÛ˙aeo";
-		return strong.contains(Character.toString(c));
-	}
-	
-	public boolean weakVowel(char c) {
-		String weak = "IUiu¸";
-		return weak.contains(Character.toString(c));
-	}
-	
-	public boolean consonant(char c) {
-		String consonant = "BC«DFGHJKLMN—PQRSTVWXYZbcÁdfghjklmnÒpqrstvwxyz";
-		return consonant.contains(Character.toString(c));
-	}
-	
-	public boolean accent(char c) {
-		String accents = "¡…Õ”⁄·ÈÌÛ˙";
-		return accents.contains(Character.toString(c));
-	}
-	
 	public boolean isAccented(Syllable s) {
 		for (int i = 0; i < s.getSyllable().length(); i++) {
-			if (accent(s.getSyllable().charAt(i))) {
+			if (Letter.accent(s.getSyllable().charAt(i))) {
 				return true;
 			}
 		}
@@ -101,7 +76,7 @@ public class Word {
 	}
 	
 	public boolean shouldSeparate(int i) {
-		if (vowel(word.charAt(i))) {
+		if (Letter.vowel(word.charAt(i))) {
 			return vowelSeparate(i);
 		}
 		else {
@@ -110,7 +85,7 @@ public class Word {
 	}
 	
 	public boolean shouldSeparate(String s, int i) {
-		if (vowel(s.charAt(i))) {
+		if (Letter.vowel(s.charAt(i))) {
 			return vowelSeparate(s, i);
 		}
 		else {
@@ -125,10 +100,10 @@ public class Word {
 		else if (word.charAt(i + 1) == 'r' || word.charAt(i + 1) == 'l') {
 			return false;
 		}
-		else if (i >= 1 && consonant(word.charAt(i - 1)) && consonant(word.charAt(i + 1))) {
+		else if (i >= 1 && Letter.consonant(word.charAt(i - 1)) && Letter.consonant(word.charAt(i + 1))) {
 			return false;
 		}
-		else if (consonant(word.charAt(i + 1))) {
+		else if (Letter.consonant(word.charAt(i + 1))) {
 			return true;
 		}
 		else {
@@ -143,10 +118,10 @@ public class Word {
 		else if (s.charAt(i + 1) == 'r' || s.charAt(i + 1) == 'l') {
 			return false;
 		}
-		else if (i >= 1 && consonant(s.charAt(i - 1)) && consonant(s.charAt(i + 1))) {
+		else if (i >= 1 && Letter.consonant(s.charAt(i - 1)) && Letter.consonant(s.charAt(i + 1))) {
 			return false;
 		}
-		else if (consonant(s.charAt(i + 1))) {
+		else if (Letter.consonant(s.charAt(i + 1))) {
 			return true;
 		}
 		else {
@@ -158,27 +133,27 @@ public class Word {
 		if (i + 1 == word.length()) {
 			return false;
 		}
-		else if (weakVowel(word.charAt(i + 1))) {
+		else if (Letter.weakVowel(word.charAt(i + 1))) {
 			return false;
 		}
-		else if (i + 2 != word.length() && consonant(word.charAt(i + 1)) 
-				&& vowel(word.charAt(i + 2))) {
+		else if (i + 2 != word.length() && Letter.consonant(word.charAt(i + 1)) 
+				&& Letter.vowel(word.charAt(i + 2))) {
 			return true;
 		}
-		else if (i + 2 != word.length() && consonant(word.charAt(i + 1)) 
-				&& consonant(word.charAt(i + 2)) && word.charAt(i + 2) != 'r' 
+		else if (i + 2 != word.length() && Letter.consonant(word.charAt(i + 1)) 
+				&& Letter.consonant(word.charAt(i + 2)) && word.charAt(i + 2) != 'r' 
 				&& word.charAt(i + 2) != 'l') {
 			return false;
 		}
-		else if (i + 2 != word.length() && consonant(word.charAt(i + 1)) 
-				&& consonant(word.charAt(i + 2)) && (word.charAt(i + 2) == 'r' 
+		else if (i + 2 != word.length() && Letter.consonant(word.charAt(i + 1)) 
+				&& Letter.consonant(word.charAt(i + 2)) && (word.charAt(i + 2) == 'r' 
 				|| word.charAt(i + 2) == 'l')) {
 			return true;
 		}
-		else if (weakVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1))) {
+		else if (Letter.weakVowel(word.charAt(i)) && Letter.strongVowel(word.charAt(i + 1))) {
 			return false;
 		}
-		else if (strongVowel(word.charAt(i)) && strongVowel(word.charAt(i + 1))) {
+		else if (Letter.strongVowel(word.charAt(i)) && Letter.strongVowel(word.charAt(i + 1))) {
 			return true;
 		}
 		else {
@@ -190,27 +165,27 @@ public class Word {
 		if (i + 1 == s.length()) {
 			return false;
 		}
-		else if (weakVowel(s.charAt(i + 1))) {
+		else if (Letter.weakVowel(s.charAt(i + 1))) {
 			return false;
 		}
-		else if (i + 2 != s.length() && consonant(s.charAt(i + 1)) 
-				&& vowel(s.charAt(i + 2))) {
+		else if (i + 2 != s.length() && Letter.consonant(s.charAt(i + 1)) 
+				&& Letter.vowel(s.charAt(i + 2))) {
 			return true;
 		}
-		else if (i + 2 != s.length() && consonant(s.charAt(i + 1)) 
-				&& consonant(s.charAt(i + 2)) && s.charAt(i + 2) != 'r' 
+		else if (i + 2 != s.length() && Letter.consonant(s.charAt(i + 1)) 
+				&& Letter.consonant(s.charAt(i + 2)) && s.charAt(i + 2) != 'r' 
 				&& s.charAt(i + 2) != 'l') {
 			return false;
 		}
-		else if (i + 2 != s.length() && consonant(s.charAt(i + 1)) 
-				&& consonant(s.charAt(i + 2)) && (s.charAt(i + 2) == 'r' 
+		else if (i + 2 != s.length() && Letter.consonant(s.charAt(i + 1)) 
+				&& Letter.consonant(s.charAt(i + 2)) && (s.charAt(i + 2) == 'r' 
 				|| s.charAt(i + 2) == 'l')) {
 			return true;
 		}
-		else if (weakVowel(s.charAt(i)) && strongVowel(s.charAt(i + 1))) {
+		else if (Letter.weakVowel(s.charAt(i)) && Letter.strongVowel(s.charAt(i + 1))) {
 			return false;
 		}
-		else if (strongVowel(s.charAt(i)) && strongVowel(s.charAt(i + 1))) {
+		else if (Letter.strongVowel(s.charAt(i)) && Letter.strongVowel(s.charAt(i + 1))) {
 			return true;
 		}
 		else {
@@ -233,7 +208,7 @@ public class Word {
 			syllables.get(0).setStressed();
 		}
 		else if (word.charAt(word.length() - 1) == 'n' || word.charAt(word.length() - 1) == 's' 
-				|| vowel(word.charAt(word.length() - 1))) {
+				|| Letter.vowel(word.charAt(word.length() - 1))) {
 			syllables.get(syllables.size() - 2).setStressed();
 		}
 		else {
