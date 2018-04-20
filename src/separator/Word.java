@@ -26,7 +26,7 @@ public class Word {
 		}
 		stressedSyllable();
 		if (reattach) {
-			word = word + "/";
+			separated = separated + "/";
 		}
 		return separated;
 	}
