@@ -60,7 +60,7 @@ public class S3Controller {
 			characters[i] = '/';
 		}
 		if (i + 1 != characters.length && !Letter.isLetter(characters[i + 1]) 
-				&& characters[i + 1] != ' ') {
+				&& characters[i + 1] != ' ' && !Letter.isLetter(characters[i])) {
 			characters[i] = Character.MIN_VALUE;
 		}
 	}
@@ -78,19 +78,23 @@ public class S3Controller {
 		}
 		else if (Letter.consonant(previous.charAt(previous.length() - 2)) && (Letter.vowel(present.charAt(0)) 
 				|| (!Letter.isLetter(present.charAt(0)) && Letter.vowel(present.charAt(1))))) {
-			if (!Letter.isLetter(present.charAt(0))) {
-				return previous.substring(0, previous.length() - 2) + ".'" 
-				+ previous.substring(previous.length() - 2, previous.length() - 1) 
-				+ present.substring(1);
-			}
-			else {
-				return previous.substring(0, previous.length() - 2) + "." 
-						+ previous.substring(previous.length() - 2, previous.length() - 1) 
-						+ present;
-			}
+			return resyllabificationHelper(previous, present);
 		}
 		else {
 			return previous + present;
+		}
+	}
+	
+	public String resyllabificationHelper(String previous, String present) {
+		if (!Letter.isLetter(present.charAt(0))) {
+			return previous.substring(0, previous.length() - 2) + ".'" 
+			+ previous.substring(previous.length() - 2, previous.length() - 1) 
+			+ present.substring(1);
+		}
+		else {
+			return previous.substring(0, previous.length() - 2) + "." 
+					+ previous.substring(previous.length() - 2, previous.length() - 1) 
+					+ present;
 		}
 	}
 	
