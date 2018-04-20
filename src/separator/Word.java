@@ -30,19 +30,6 @@ public class Word {
 		}
 		return separated;
 	}
-	
-	public void separate() {
-		int place = 0;
-		for (int i = 0; i < word.length() - 1; i++) {
-			if (shouldSeparate(i)) {
-				syllables.add(new Syllable(word.substring(place, i + 1)));
-				place = i + 1;
-			}
-		}
-		if (place != word.length()) {
-			syllables.add(new Syllable(word.substring(place)));
-		}
-	}
 
 	public void stressedSyllable() {
 		separate();
@@ -64,30 +51,25 @@ public class Word {
 		}
 	}
 	
+	public void separate() {
+		int place = 0;
+		for (int i = 0; i < word.length() - 1; i++) {
+			if (shouldSeparate(i)) {
+				syllables.add(new Syllable(word.substring(place, i + 1)));
+				place = i + 1;
+			}
+		}
+		if (place != word.length()) {
+			syllables.add(new Syllable(word.substring(place)));
+		}
+	}
+	
 	public boolean shouldSeparate(int i) {
 		if (Letter.vowel(word.charAt(i))) {
 			return vowelSeparate(i);
 		}
 		else {
 			return consonantSeparate(i);
-		}
-	}
-	
-	public boolean consonantSeparate(int i) {
-		if (i + 1 == word.length() - 1) {
-			return false;
-		}
-		else if (word.charAt(i + 1) == 'r' || word.charAt(i + 1) == 'l') {
-			return false;
-		}
-		else if (i >= 1 && Letter.consonant(word.charAt(i - 1)) && Letter.consonant(word.charAt(i + 1))) {
-			return false;
-		}
-		else if (Letter.consonant(word.charAt(i + 1))) {
-			return true;
-		}
-		else {
-			return false;
 		}
 	}
 	
@@ -116,6 +98,24 @@ public class Word {
 			return false;
 		}
 		else if (Letter.strongVowel(word.charAt(i)) && Letter.strongVowel(word.charAt(i + 1))) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean consonantSeparate(int i) {
+		if (i + 1 == word.length() - 1) {
+			return false;
+		}
+		else if (word.charAt(i + 1) == 'r' || word.charAt(i + 1) == 'l') {
+			return false;
+		}
+		else if (i >= 1 && Letter.consonant(word.charAt(i - 1)) && Letter.consonant(word.charAt(i + 1))) {
+			return false;
+		}
+		else if (Letter.consonant(word.charAt(i + 1))) {
 			return true;
 		}
 		else {
