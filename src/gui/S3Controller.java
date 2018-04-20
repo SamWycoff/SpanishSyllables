@@ -41,26 +41,6 @@ public class S3Controller {
 		}
 	}
 	
-	//Copied from example during Wednesday's lecture
-	@FXML
-	public void save() {
-		try {
-			File copy = new File(fileName.getText());
-			Scanner fileIn = new Scanner(result.getText());
-			PrintStream fileOut = new PrintStream(copy);
-
-			while (fileIn.hasNextLine()) {
-				fileOut.print(fileIn.nextLine());
-			}
-
-			fileIn.close();
-			fileOut.close();
-		}
-		catch (FileNotFoundException e) {
-			e.getMessage();
-		}
-	}
-	
 	public void separateHelper(String text) {
 		char[] characters = text.toCharArray();
 		for (int i = 0; i < characters.length; i++) {
@@ -78,10 +58,10 @@ public class S3Controller {
 	public void addSlashes(char[] characters, int i) {
 		if (!Letter.isLetter(characters[i]) && characters[i] != ' ') {
 			characters[i] = '/';
-			if (i + 1 != characters.length && !Letter.isLetter(characters[i + 1]) 
-					&& characters[i + 1] != ' ') {
-				characters[i] = Character.MIN_VALUE;
-			}
+		}
+		if (i + 1 != characters.length && !Letter.isLetter(characters[i + 1]) 
+				&& characters[i + 1] != ' ') {
+			characters[i] = Character.MIN_VALUE;
 		}
 	}
 	
@@ -111,6 +91,26 @@ public class S3Controller {
 		}
 		else {
 			return previous + present;
+		}
+	}
+	
+	//Copied from example during Wednesday's lecture
+	@FXML
+	public void save() {
+		try {
+			File copy = new File(fileName.getText());
+			Scanner fileIn = new Scanner(result.getText());
+			PrintStream fileOut = new PrintStream(copy);
+
+			while (fileIn.hasNextLine()) {
+				fileOut.print(fileIn.nextLine());
+			}
+
+			fileIn.close();
+			fileOut.close();
+		}
+		catch (FileNotFoundException e) {
+			e.getMessage();
 		}
 	}
 }

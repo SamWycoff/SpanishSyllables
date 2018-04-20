@@ -31,7 +31,7 @@ public class Word {
 		return separated;
 	}
 
-	public void stressedSyllable() {
+	private void stressedSyllable() {
 		separate();
 		for (Syllable s : syllables) {
 			accentCheck(s);
@@ -51,7 +51,7 @@ public class Word {
 		}
 	}
 	
-	public void separate() {
+	private void separate() {
 		int place = 0;
 		for (int i = 0; i < word.length() - 1; i++) {
 			if (shouldSeparate(i)) {
@@ -64,7 +64,7 @@ public class Word {
 		}
 	}
 	
-	public boolean shouldSeparate(int i) {
+	private boolean shouldSeparate(int i) {
 		if (Letter.vowel(word.charAt(i))) {
 			return vowelSeparate(i);
 		}
@@ -73,7 +73,7 @@ public class Word {
 		}
 	}
 	
-	public boolean vowelSeparate(int i) {
+	private boolean vowelSeparate(int i) {
 		if (i + 1 == word.length()) {
 			return false;
 		}
@@ -105,7 +105,7 @@ public class Word {
 		}
 	}
 	
-	public boolean consonantSeparate(int i) {
+	private boolean consonantSeparate(int i) {
 		if (i + 1 == word.length() - 1) {
 			return false;
 		}
@@ -123,14 +123,14 @@ public class Word {
 		}
 	}
 	
-	public void accentCheck(Syllable s) {
+	private void accentCheck(Syllable s) {
 		if (s.isAccented()) {
 			s.setStressed();
 			accented = true;
 		}
 	}
 	
-	public void markAccent() {
+	private void markAccent() {
 		if (syllables.size() == 1) {
 			syllables.get(0).setStressed();
 		}
