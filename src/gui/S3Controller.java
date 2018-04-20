@@ -3,7 +3,6 @@ package gui;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import javafx.fxml.FXML;
@@ -34,13 +33,11 @@ public class S3Controller {
 	@FXML
 	public void separate() {
 		String text = original.getText();
-		ArrayList<Word> originalWords = new ArrayList<Word>();
-		String finalResult = "";
 		if (text.length() > 500) {
 			result.setText("This text is too long to separate.");
 		}
 		else {
-			separateHelper(text, originalWords, finalResult);
+			separateHelper(text);
 		}
 	}
 	
@@ -64,18 +61,16 @@ public class S3Controller {
 		}
 	}
 	
-	public void separateHelper(String text, ArrayList<Word> originalWords, String finalResult) {
+	public void separateHelper(String text) {
 		char[] characters = text.toCharArray();
 		for (int i = 0; i < characters.length; i++) {
 			addSlashes(characters, i);
 		}
 		text = String.valueOf(characters);
 		String[] tempWords = text.split(" ");
+		String finalResult = "";
 		for (int i = 0; i < tempWords.length; i++) {
-			originalWords.add(new Word(tempWords[i]));
-		}
-		for (int i = 0; i < originalWords.size(); i++) {
-			finalResult = resyllabification(finalResult, originalWords.get(i).getSeparated());
+			finalResult = resyllabification(finalResult, new Word(tempWords[i]).getSeparated());
 		}
 		result.setText(String.format(finalResult));
 	}

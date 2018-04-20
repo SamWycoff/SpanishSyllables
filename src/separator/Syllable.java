@@ -11,6 +11,15 @@ public class Syllable {
 		return syllable;
 	}
 	
+	public boolean isAccented() {
+		for (int i = 0; i < syllable.length(); i++) {
+			if (Letter.accent(syllable.charAt(i))) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void setStressed() {
 		if (syllable.charAt(0) != '/') {
 			syllable = "'" + syllable;
