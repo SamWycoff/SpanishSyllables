@@ -6,8 +6,10 @@ import java.io.PrintStream;
 import java.util.Scanner;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import separator.*;
 
 public class S3Controller {
@@ -33,8 +35,12 @@ public class S3Controller {
 	@FXML
 	public void separate() {
 		String text = original.getText();
-		if (text.length() > 500) {
-			result.setText("This text is too long to separate.");
+		if (text.length() > 1000) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("This text is over 1000 characters and, therefore, too long to separate.");
+			alert.setContentText("The current provided text contains " + text.length() + " characters.");
+			alert.show();
 		}
 		else {
 			separateHelper(text);
@@ -58,7 +64,11 @@ public class S3Controller {
 	public void addSlashes(char[] characters, int i) {
 		if (!Letter.isLetter(characters[i]) && characters[i] != ' ') {
 			characters[i] = '/';
+			avoidTwoSlashes(characters, i);
 		}
+	}
+	
+	public void avoidTwoSlashes(char[] characters, int i) {
 		if (i + 1 != characters.length && !Letter.isLetter(characters[i + 1]) 
 				&& characters[i + 1] != ' ' && !Letter.isLetter(characters[i])) {
 			characters[i] = Character.MIN_VALUE;
