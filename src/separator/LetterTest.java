@@ -1,49 +1,49 @@
 package separator;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class LetterTest {
 
 	@Test
 	public void testIsLetter() {
-		Assert.assertTrue(Letter.isLetter('c'));
-		Assert.assertTrue(Letter.isLetter('0'));
-		Assert.assertFalse(Letter.isLetter('&'));
+		assertTrue(Letter.isLetter('c'));
+		assertTrue(Letter.isLetter('0'));
+		assertFalse(Letter.isLetter('&'));
 	}
 	
 	@Test
 	public void testVowel() {
-		Assert.assertTrue(Letter.vowel('Ú'));
-		Assert.assertTrue(Letter.vowel('I'));
-		Assert.assertFalse(Letter.vowel('c'));
+		assertTrue(Letter.vowel('Ú'));
+		assertTrue(Letter.vowel('I'));
+		assertFalse(Letter.vowel('c'));
 	}
 	
 	@Test
 	public void testStrongVowel() {
-		Assert.assertTrue(Letter.strongVowel('Ú'));
-		Assert.assertFalse(Letter.strongVowel('I'));
-		Assert.assertFalse(Letter.strongVowel('c'));
+		assertTrue(Letter.strongVowel('Ú'));
+		assertFalse(Letter.strongVowel('I'));
+		assertFalse(Letter.strongVowel('c'));
 	}
 	
 	@Test
 	public void testWeakVowel() {
-		Assert.assertFalse(Letter.weakVowel('Ú'));
-		Assert.assertTrue(Letter.weakVowel('I'));
-		Assert.assertFalse(Letter.weakVowel('c'));
+		assertFalse(Letter.weakVowel('Ú'));
+		assertTrue(Letter.weakVowel('I'));
+		assertFalse(Letter.weakVowel('c'));
 	}
 	
 	@Test
 	public void testConsonant() {
-		Assert.assertTrue(Letter.consonant('x'));
-		Assert.assertTrue(Letter.consonant('Ñ'));
-		Assert.assertFalse(Letter.consonant('a'));
+		assertTrue(Letter.consonant('x'));
+		assertTrue(Letter.consonant('Ñ'));
+		assertFalse(Letter.consonant('a'));
 	}
 	
 	@Test
 	public void testAccent() {
-		Assert.assertTrue(Letter.accent('ú'));
-		Assert.assertFalse(Letter.accent('Ñ'));
-		Assert.assertFalse(Letter.accent('a'));
+		assertTrue(Letter.accent('ú'));
+		assertFalse(Letter.accent('Ñ'));
+		assertFalse(Letter.accent('a'));
 	}
 }
