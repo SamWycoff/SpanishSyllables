@@ -26,7 +26,7 @@ public class Word {
 		}
 		stressedSyllable();
 		if (reattach) {
-			separated = separated + "/";
+			separated = separated.substring(0, separated.length() - 1) + "/";
 		}
 		return separated;
 	}
@@ -41,13 +41,7 @@ public class Word {
 		}
 		for (int i = 0; i < syllables.size(); i++) {
 			String temp = syllables.get(i).getSyllable();
-			if (temp.charAt(temp.length() - 1) 
-					!= '/'){
-				separated = separated + temp + ".";
-			}
-			else {
-				separated = separated + temp;
-			}
+			separated = separated + temp + ".";
 		}
 	}
 	
@@ -73,7 +67,7 @@ public class Word {
 		}
 	}
 	
-	private boolean vowelSeparate(int i) {
+	protected boolean vowelSeparate(int i) {
 		if (i + 1 == word.length()) {
 			return false;
 		}
@@ -105,8 +99,8 @@ public class Word {
 		}
 	}
 	
-	private boolean consonantSeparate(int i) {
-		if (i + 1 == word.length() - 1) {
+	protected boolean consonantSeparate(int i) {
+		if (i + 1 == word.length()) {
 			return false;
 		}
 		else if (word.charAt(i + 1) == 'r' || word.charAt(i + 1) == 'l') {
